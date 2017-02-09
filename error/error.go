@@ -1,6 +1,6 @@
-package main
+package error
 
-type jsonErr struct {
+type HttpError struct {
 	Code int    `json:"code"`
 	Text string `json:"text"`
 }

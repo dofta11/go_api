@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 	"net/http"
+	"go_api/router"
 )
 
 func main() {
-	router := NewRouter()
+	router := router.NewRouter()
 
 	log.Fatal(http.ListenAndServe(":8090", router))
 }

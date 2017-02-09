@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"encoding/json"
@@ -9,6 +9,9 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"go_api/vo"
+	"go_api/model"
+	usr_err "go_api/error"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +21,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func TodoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(todos); err != nil {
+	if err := json.NewEncoder(w).Encode(model.Todos_val); err != nil {
 		panic(err)
 	}
 }
@@ -30,7 +33,7 @@ func TodoShow(w http.ResponseWriter, r *http.Request) {
 	if todoId, err = strconv.Atoi(vars["todoId"]); err != nil {
 		panic(err)
 	}
-	todo := RepoFindTodo(todoId)
+	todo := model.RepoFindTodo(todoId)
 	if todo.Id > 0 {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
@@ -43,7 +46,7 @@ func TodoShow(w http.ResponseWriter, r *http.Request) {
 	// If we didn't find it, 404
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNotFound)
-	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
+	if err := json.NewEncoder(w).Encode(usr_err.HttpError{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
 		panic(err)
 	}
 
@@ -56,7 +59,7 @@ curl -H "Content-Type: application/json" -d '{"name":"New Todo"}' http://localho
 
 */
 func TodoCreate(w http.ResponseWriter, r *http.Request) {
-	var todo Todo
+	var todo vo.Todo
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 	if err != nil {
 		panic(err)
@@ -72,7 +75,7 @@ func TodoCreate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t := RepoCreateTodo(todo)
+	t := model.RepoCreateTodo(todo)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(t); err != nil {

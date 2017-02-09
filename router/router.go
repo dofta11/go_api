@@ -1,10 +1,11 @@
-package main
+package router
 
 import (
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"fmt"
+	"go_api/logger"
 )
 
 func NewRouter() *mux.Router {
@@ -25,7 +26,7 @@ func NewRouter() *mux.Router {
 		fmt.Print(" 3 => ")
 		fmt.Print(handler)
 		fmt.Println()
-		handler = Logger(handler, route.Name)
+		handler = logger.Logger(handler, route.Name)
 		fmt.Print(" 4 => ")
 		fmt.Print(handler)
 		fmt.Println()

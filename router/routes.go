@@ -1,6 +1,10 @@
-package main
+package router
 
-import "net/http"
+import (
+	"net/http"
+	"go_api/handler"
+	"go_api/controller"
+)
 
 type Route struct {
 	Name        string
@@ -13,27 +17,34 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
+		"LoginCheck",
+		"POST",
+		"/member/login_check",
+		controller.LoginCheck,
+	},
+
+	Route{
 		"Index",
 		"GET",
 		"/",
-		Index,
+		handler.Index,
 	},
 	Route{
 		"TodoIndex",
 		"GET",
 		"/todos",
-		TodoIndex,
+		handler.TodoIndex,
 	},
 	Route{
 		"TodoCreate",
 		"POST",
 		"/todos",
-		TodoCreate,
+		handler.TodoCreate,
 	},
 	Route{
 		"TodoShow",
 		"GET",
 		"/todos/{todoId}",
-		TodoShow,
+		handler.TodoShow,
 	},
 }
