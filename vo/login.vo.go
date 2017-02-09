@@ -1,6 +1,6 @@
 package vo
 
 type LoginApiRequestVo struct {
-	Id		string
+	User_id		string
 	Password	string
 }
