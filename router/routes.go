@@ -3,7 +3,8 @@ package router
 import (
 	"net/http"
 	"go_api/handler"
-	"go_api/controller"
+	"go_api/controller/api"
+	"go_api/controller/web"
 )
 
 type Route struct {
@@ -16,13 +17,24 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
+	//API
 	Route{
 		"LoginCheck",
 		"POST",
 		"/member/login_check",
-		controller.LoginCheck,
+		api.LoginCheck,
 	},
 
+	//WEB
+
+	Route{
+		"DicePlay",
+		"GET",
+		"/dice_play",
+		web.DicePlay,
+	},
+
+	//Practice
 	Route{
 		"Index",
 		"GET",
