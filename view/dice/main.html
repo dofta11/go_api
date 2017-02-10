@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>Soong's Dice Play</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #jb-container {
+            width: 940px;
+            margin: 0px auto;
+            padding: 20px;
+            border: 1px solid #bcbcbc;
+        }
+        #jb-header {
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #bcbcbc;
+        }
+        #jb-content {
+            width: 580px;
+            padding: 20px;
+            margin-bottom: 20px;
+            float: left;
+            border: 1px solid #bcbcbc;
+        }
+        #jb-sidebar {
+            width: 260px;
+            padding: 20px;
+            margin-bottom: 20px;
+            float: right;
+            border: 1px solid #bcbcbc;
+        }
+        #jb-footer {
+            clear: both;
+            padding: 20px;
+            border: 1px solid #bcbcbc;
+        }
+        @media screen and (max-width:480px) {
+            #jb-container {
+                width: auto;
+            }
+            #jb-content {
+                float: none;
+                width: auto;
+            }
+            #jb-sidebar {
+                float: none;
+                width: auto;
+            }
+        }
+
+        .copyright{text-align: right;}
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 122px;
+            height: 45px;
+        }
+
+        .switch input {display:none;}
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 11px;
+            left: 62px;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div id="jb-container">
+    <div id="jb-header">
+        <h1>Soong's Dice Play!</h1>
+    </div>
+    <div id="jb-content">
+        <h2>Member Status!</h2>
+        {{ var i int }}
+        {{ for i < 10 { }}
+        <label class="switch">
+            <p>이승현</p>
+            <input type="checkbox" name="selected_member[]">
+            <div style="float: left;" class="slider round"></div>
+        </label>
+       {{
+        i++
+        }
+        }}
+
+    </div>
+
+    <div id="jb-sidebar">
+        <h2>Click!</h2>
+        <p>
+        </p>
+    </div>
+
+    <div id="jb-footer">
+        <p>Result</p>
+    </div>
+
+    <p class="copyright">Made by soong</p>
+
+</div>
+</body>
+</html>
