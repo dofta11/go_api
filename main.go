@@ -9,6 +9,11 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"log"
+	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
+
+	usr_err "go_api/error"
 )
 
 type User struct {
@@ -20,8 +25,43 @@ const VerifyMessage = "verified"
 
 func main() {
 	s := NewServer()
+
+	s.HandleFunc("POST","/member/login_check", func(c *Context){
+
+		db, dberr := sql.Open("mysql", "root:zjaaod11@tcp(27.1.238.145:3306)/ments_co_kr")
+		if dberr != nil {
+			log.Fatal(dberr)
+		}
+		defer db.Close()
+
+		var password string
+		var user_nm string
+
+		dberr = db.QueryRow("SELECT password, user_nm FROM MEMBER_COMMON WHERE user_id = ? AND password = ?", c.Params["user_id"], c.Params["password"]).Scan(&password, &user_nm)
+		if dberr != nil {
+			log.Fatal(dberr)
+		}
+
+		if password != c.Params["password"] {
+			var jsonErr = usr_err.HttpError{Code: http.StatusUnauthorized, Text: "Password Not Match"}
+			c.RenderJson(jsonErr)
+		} else {
+
+			json_temp := map[string]interface{}{
+				"code"	: 200,
+				"msg"	: "SUCCESS",
+				"result": map[string]string{
+					"user_nm"	:	user_nm,
+				},
+			}
+
+			c.RenderJson(json_temp)
+		}
+
+	})
+
 	s.HandleFunc("GET", "/", func(c *Context) {
-		c.RenderTemplate("/public/index.html",
+		c.RenderTemplate("/view/index.html",
 			map[string]interface{}{"time": time.Now()})
 	})
 
@@ -45,7 +85,7 @@ func main() {
 
 	s.HandleFunc("GET", "/login", func(c *Context) {
 		// "login.html" 렌더링
-		c.RenderTemplate("/public/login.html",
+		c.RenderTemplate("/view/login.html",
 			map[string]interface{}{"message": "로그인이 필요합니다"})
 	})
 
@@ -60,7 +100,7 @@ func main() {
 			c.Redirect("/")
 		}
 		// id와 password가 맞지 않으면 다시 "/login" 페이지 렌더링
-		c.RenderTemplate("/public/login.html",
+		c.RenderTemplate("/view/login.html",
 			map[string]interface{}{"message": "id 또는 password가 일치하지 않습니다"})
 
 	})
@@ -81,9 +121,9 @@ func CheckLogin(username, password string) bool {
 }
 
 func AuthHandler(next HandlerFunc) HandlerFunc {
-	ignore := []string{"/login", "public/index.html"}
+	ignore := []string{"/login", "view/index.html", "/member/login_check"}
 	return func(c *Context) {
-		// url prefix가 "/", /login", "public/index.html"인 경우 auth를 체크하지 않음
+		// url prefix가 "/", /login", "view/index.html"인 경우 auth를 체크하지 않음
 		for _, s := range ignore {
 			if strings.HasPrefix(c.Request.URL.Path, s) {
 				next(c)
@@ -93,8 +133,12 @@ func AuthHandler(next HandlerFunc) HandlerFunc {
 
 		if v, err := c.Request.Cookie("X_AUTH"); err == http.ErrNoCookie {
 			// "X_AUTH" 쿠키 값이 없으면 "/login" 으로 이동
-			c.Redirect("/login")
+			//c.Redirect("/login")
+
+			u := usr_err.HttpError{306, "Not Auth"}
+			c.RenderJson(u)
 			return
+
 		} else if err != nil {
 			// 에러 처리
 			c.RenderErr(http.StatusInternalServerError, err)

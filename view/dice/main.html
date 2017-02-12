@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8">
-    <title>Soong's Dice Play</title>
+    <title>{{ .title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         #jb-container {
@@ -111,21 +111,15 @@
 <body>
 <div id="jb-container">
     <div id="jb-header">
-        <h1>Soong's Dice Play!</h1>
+        <h1>{{ .title }}</h1>
     </div>
     <div id="jb-content">
         <h2>Member Status!</h2>
-        {{ var i int }}
-        {{ for i < 10 { }}
         <label class="switch">
             <p>이승현</p>
             <input type="checkbox" name="selected_member[]">
             <div style="float: left;" class="slider round"></div>
         </label>
-       {{
-        i++
-        }
-        }}
 
     </div>
 

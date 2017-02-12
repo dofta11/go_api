@@ -1,0 +1,37 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;go_api&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../ch07" />
+      <root url="file://$PROJECT_DIR$/../ch06" />
+      <root url="file://$PROJECT_DIR$/../ch05" />
+      <root url="file://$PROJECT_DIR$/../ch04" />
+      <root url="file://$PROJECT_DIR$/../ch03" />
+      <root url="file://$PROJECT_DIR$/../ch02" />
+      <root url="file://$PROJECT_DIR$/../golang" />
+      <root url="file://$PROJECT_DIR$/../ch01" />
+      <root url="file://$PROJECT_DIR$/../ch10" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../ch09" />
+      <root url="file://$PROJECT_DIR$/../ch08" />
+    </CLASSES>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../ch07" />
+      <root url="file://$PROJECT_DIR$/../ch06" />
+      <root url="file://$PROJECT_DIR$/../ch05" />
+      <root url="file://$PROJECT_DIR$/../ch04" />
+      <root url="file://$PROJECT_DIR$/../ch03" />
+      <root url="file://$PROJECT_DIR$/../ch02" />
+      <root url="file://$PROJECT_DIR$/../golang" />
+      <root url="file://$PROJECT_DIR$/../ch01" />
+      <root url="file://$PROJECT_DIR$/../ch10" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../ch09" />
+      <root url="file://$PROJECT_DIR$/../ch08" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>
