@@ -21,6 +21,16 @@ type User struct {
 	AddressId string
 }
 
+type Member_list struct {
+	user_nm string
+	user_id string
+/*	user_type_cd string
+	phone string
+	email string
+	birthday int
+	age  int*/
+}
+
 const VerifyMessage = "verified"
 
 func main() {
@@ -37,7 +47,8 @@ func main() {
 		var password string
 		var user_nm string
 
-		dberr = db.QueryRow("SELECT password, user_nm FROM MEMBER_COMMON WHERE user_id = ? AND password = ?", c.Params["user_id"], c.Params["password"]).Scan(&password, &user_nm)
+		dberr = db.QueryRow(
+			"SELECT password, user_nm FROM MEMBER_COMMON WHERE user_id = ? AND password = ?", c.Params["user_id"], c.Params["password"]).Scan(&password, &user_nm)
 		if dberr != nil {
 			log.Fatal(dberr)
 		}
@@ -58,6 +69,15 @@ func main() {
 			c.RenderJson(json_temp)
 		}
 
+	})
+
+	s.HandleFunc("GET", "/dice", func(c *Context){
+
+		var data = []Member_list{
+			{"soong","dofta11"},
+			{"soong","dofta11"},
+		}
+		c.RenderTemplate("/view/dice/main.html", map[string]interface{}{"result": data})
 	})
 
 	s.HandleFunc("GET", "/", func(c *Context) {
@@ -121,7 +141,7 @@ func CheckLogin(username, password string) bool {
 }
 
 func AuthHandler(next HandlerFunc) HandlerFunc {
-	ignore := []string{"/login", "view/index.html", "/member/login_check"}
+	ignore := []string{"/login", "view/index.html", "/member/login_check", "/dice"}
 	return func(c *Context) {
 		// url prefix가 "/", /login", "view/index.html"인 경우 auth를 체크하지 않음
 		for _, s := range ignore {
