@@ -21,15 +21,12 @@ type User struct {
 	AddressId string
 }
 
-type Member_list struct {
-	user_nm string
-	user_id string
-/*	user_type_cd string
-	phone string
-	email string
-	birthday int
-	age  int*/
+var Member_list = []*Member{}
+type Member struct {
+	User_cd int
+	User_nm string
 }
+
 
 const VerifyMessage = "verified"
 
@@ -73,11 +70,34 @@ func main() {
 
 	s.HandleFunc("GET", "/dice", func(c *Context){
 
-		var data = []Member_list{
-			{"soong","dofta11"},
-			{"soong","dofta11"},
+
+		/*db, dberr := sql.Open("mysql", "root:zjaaod11@tcp(27.1.238.145:3306)/ments_co_kr")
+		if dberr != nil {
+			log.Fatal(dberr)
 		}
-		c.RenderTemplate("/view/dice/main.html", map[string]interface{}{"result": data})
+		defer db.Close()
+
+		rows, dberr := db.Query("SELECT user_nm, user_id FROM MEMBER_COMMON WHERE 1=?", 1)
+
+		if dberr != nil {
+			log.Fatal(dberr)
+		}
+		defer rows.Close()
+		var user_id string
+		var user_nm string
+		for rows.Next(){
+			err := rows.Scan(&user_nm, &user_id)
+			if err != nil{
+				log.Fatal(err)
+			}
+			fmt.Println(user_id, user_nm)
+		}*/
+
+
+		//멤버 설정
+		GenerateMember()
+
+		c.RenderTemplate("/view/dice/main.html", map[string]interface{}{"member_list": Member_list})
 	})
 
 	s.HandleFunc("GET", "/", func(c *Context) {
@@ -127,9 +147,24 @@ func main() {
 
 	s.Use(AuthHandler)
 
-	s.Run(":8080")
+	s.Run(":8090")
 }
 
+func GenerateMember(){
+	list := []*Member{
+		{1, "이승현"},
+		{2, "최원혁"},
+		{3, "이민선"},
+		{4, "박승훈"},
+		{5, "박승훈"},
+		{6, "이지혜"},
+		{7, "전교진"},
+		{8, "김용태"},
+		{9, "백선욱"},
+		{10, "황종인"},
+	}
+	Member_list = list
+}
 func CheckLogin(username, password string) bool {
 	// 로그인 처리
 	const (
