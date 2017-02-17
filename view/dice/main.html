@@ -13,7 +13,7 @@
     </div>
 
     <div id="jb-sidebar">
-        <input type="button" id="dice_btn" value="Dice" class="butt js--triggerAnimation"/>
+        <input type="button" id="dice_btn" value="Dice" class="butt js--triggerAnimation" style="display: block;"/>
         <span id="animationSandbox" style="display: block;" class=""><h1 class="site__title mega" id="result">Who is?</h1></span>
     </div>
 
@@ -59,6 +59,8 @@
                 return;
             }else{
 
+                $("#dice_btn").attr('display: block;', 'display: none;');
+
                 clear = setInterval("count()", 1000);
                 cnt = 5;
 
@@ -81,6 +83,7 @@
             testAnim("zoomInDown");
 
             member_arr = new Array();
+            $("#dice_btn").attr('display: none;', 'display: block;');
         }
     }
 
