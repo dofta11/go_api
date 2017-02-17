@@ -3,15 +3,15 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha1"
+	"database/sql"
 	"encoding/hex"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 	"time"
-	"log"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 
 	usr_err "go_api/error"
 )
@@ -22,18 +22,18 @@ type User struct {
 }
 
 var Member_list = []*Member{}
+
 type Member struct {
 	User_cd int
 	User_nm string
 }
-
 
 const VerifyMessage = "verified"
 
 func main() {
 	s := NewServer()
 
-	s.HandleFunc("POST","/member/login_check", func(c *Context){
+	s.HandleFunc("POST", "/member/login_check", func(c *Context) {
 
 		db, dberr := sql.Open("mysql", "root:zjaaod11@tcp(27.1.238.145:3306)/ments_co_kr")
 		if dberr != nil {
@@ -56,10 +56,10 @@ func main() {
 		} else {
 
 			json_temp := map[string]interface{}{
-				"code"	: 200,
-				"msg"	: "SUCCESS",
+				"code": 200,
+				"msg":  "SUCCESS",
 				"result": map[string]string{
-					"user_nm"	:	user_nm,
+					"user_nm": user_nm,
 				},
 			}
 
@@ -68,8 +68,7 @@ func main() {
 
 	})
 
-	s.HandleFunc("GET", "/dice", func(c *Context){
-
+	s.HandleFunc("GET", "/dice", func(c *Context) {
 
 		/*db, dberr := sql.Open("mysql", "root:zjaaod11@tcp(27.1.238.145:3306)/ments_co_kr")
 		if dberr != nil {
@@ -92,7 +91,6 @@ func main() {
 			}
 			fmt.Println(user_id, user_nm)
 		}*/
-
 
 		//멤버 설정
 		GenerateMember()
@@ -147,10 +145,10 @@ func main() {
 
 	s.Use(AuthHandler)
 
-	s.Run(":8090")
+	s.Run(":9090")
 }
 
-func GenerateMember(){
+func GenerateMember() {
 	list := []*Member{
 		{1, "이승현"},
 		{2, "최원혁"},
