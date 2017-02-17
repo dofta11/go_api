@@ -59,7 +59,7 @@
                 return;
             }else{
 
-                $("#dice_btn").attr('display: block;', 'display: none;');
+                $("#dice_btn").attr('style', 'display: none;');
 
                 clear = setInterval("count()", 1000);
                 cnt = 5;
@@ -83,7 +83,7 @@
             testAnim("zoomInDown");
 
             member_arr = new Array();
-            $("#dice_btn").attr('display: none;', 'display: block;');
+            $("#dice_btn").attr('style', 'display: block;');
         }
     }
 
